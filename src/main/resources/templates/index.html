@@ -17,84 +17,42 @@
 	</div>
 
 	<hr class="my-4">
-
-	<div class="container mt-4">
-		<div class="row">
-			<div class="col-md-8">
-				<form action="/addTenant" method="post"
-					class="mb-4 d-flex align-items-end">
-					<label for="tenantName" class="mr-2" style="white-space: nowrap;">Tenant
-						Name:</label> <input type="text" id="tenantName" name="tenantName"
-						class="form-control" required>
-					<button type="submit" class="btn btn-primary ml-2"
-						title="Create Tenant" style="white-space: nowrap;">Create
-						Tenant</button>
-				</form>
-			</div>
-			
-			<div class="card w-100">
-				<div class="card-header">
-					<h5>Global Configuration</h5>
+	<!-- 	<div class="container py-2" id="parent-div">
+		<div class="container my-4" id="main-div">
+			<div class="row">
+				<div class="col-md-8 mx-auto">
+					<h4 class="text-center head">Create Tenant</h4>
+					<hr />
+					<form action="/addTenant" method="post"
+						class="mb-4 d-flex align-items-end">
+						<label for="tenantName" class="mr-2" style="white-space: nowrap;">Tenant
+							Name:</label> <input type="text" id="tenantName" name="tenantName"
+							class="form-control" required>
+						<button type="submit" id="create-tan" class="btn btn-primary ml-2"
+							title="Create Tenant" style="white-space: nowrap;">Create
+							Tenant</button>
+					</form>
 				</div>
-				<div class="card-body">
-					<ul class="list-group mt-3">
-						<li th:each="bankStatusEntry : ${bankStatusMap.entrySet()}"
-							class="list-group-item d-flex justify-content-between align-items-center">
-							<span th:text="${bankStatusEntry.key}">Bank Name</span> <span
-							class="bank-status-toggle badge badge-pill"
-							th:classappend="${bankStatusEntry.value} ? 'badge-success' : 'badge-secondary'"
-							th:attr="data-bank-name=${bankStatusEntry.key}, data-bank-status=${bankStatusEntry.value}"
-							th:onclick="'toggleBankStatus(this)'" data-toggle="tooltip"
-							data-placement="top" title="Toggle Bank Status"></span> <select
-							class="form-control ml-4"
-							th:id="'status-' + ${bankStatusEntry.key}"
-							onchange="updateGlobalBankStatus(this)">
-								<option value="true" th:selected="${bankStatusEntry.value}" >Active</option>
-								<option value="false" th:selected="${!bankStatusEntry.value}">Inactive</option>
-						</select>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
 
-	<div class="container mt-4">
-		<div class="row">
-			<div th:each="tenant : ${tenants}" class="col-md-4 mb-4">
-				<div class="card custom-card">
-					<div class="card-header custom-card-header">
-						<h5 class="card-title" th:text="${tenant.tenantName}">Tenant
-							Name</h5>
+				<div class="px-0 pb-2 col-10 card text-center mx-auto" id="gc-div">
+					<div class="card-header">
+						<h5 class="card-title">Global Configuration</h5>
 					</div>
 					<div class="card-body">
-						<form th:action="@{'/addBank/' + ${tenant.tenantId}}"
-							method="post">
-							<label>Available Banks:</label>
-							<div class="form-check" th:each="bankOption : ${bankOptions}">
-								<input type="checkbox" class="form-check-input"
-									th:id="${'bank-' + bankOption}" th:name="bankOptions"
-									th:value="${bankOption}"> <label
-									class="form-check-label" th:for="${'bank-' + bankOption}"
-									th:text="${bankOption}"></label>
-							</div>
-							<button type="submit" class="btn btn-outline-primary mt-2">+ Add
-								Selected Banks</button>
-						</form>
-						<ul class="list-group mt-3">
-							<li th:each="bank : ${tenant.banks}"
-								class="list-group-item d-flex justify-content-between align-items-center">
-								<span th:text="${bank.bankName}">Bank Name</span> <span
-								class="bank-status-toggle badge badge-pill"
-								th:classappend="${bank.status} ? 'badge-success' : 'badge-secondary'"
-								th:attr="data-bank-name=${bank.bankName}, data-bank-status=${bank.status}"
-								th:onclick="'toggleBankStatus(this)'"></span>
-								
-								<select
-								class="form-control ml-3" th:id="'status-' + ${bank.bankName}" th:attr="data-tenant-id=${tenant.tenantId}"
-								onchange="updateBankStatus(this)">
-									<option value="true" th:selected="${bank.status}">Active</option>
-									<option value="false" th:selected="${!bank.status}">Inactive</option>
+						<ul class="list-group mt-3 px-2 col-8 mx-auto">
+							<li th:each="bankStatusEntry : ${bankStatusMap.entrySet()}"
+								class="list-group-item d-flex justify-content-between align-items-center row">
+								<span th:text="${bankStatusEntry.key}" style="font-weight: 500;">Bank
+									Name</span> <span class="bank-status-toggle badge badge-pill col-2"
+								th:classappend="${bankStatusEntry.value} ? 'badge-success' : 'badge-secondary'"
+								th:attr="data-bank-name=${bankStatusEntry.key}, data-bank-status=${bankStatusEntry.value}"
+								th:onclick="'toggleBankStatus(this)'" data-toggle="tooltip"
+								data-placement="top" title="Toggle Bank Status"></span> <select
+								class="form-control ml-4 col-9"
+								th:id="'status-' + ${bankStatusEntry.key}"
+								onchange="updateGlobalBankStatus(this)">
+									<option value="true" th:selected="${bankStatusEntry.value}">Active</option>
+									<option value="false" th:selected="${!bankStatusEntry.value}">Inactive</option>
 							</select>
 							</li>
 						</ul>
@@ -102,86 +60,102 @@
 				</div>
 			</div>
 		</div>
+
+		<h4 class="text-center head">Tenants</h4>
+		<hr>
+
+		<div class="container mt-4">
+			<div
+				class="row d-flex justify-md-content-around justify-content-center align-items-center">
+				<div th:each="tenant : ${tenants}"
+					class="col-lg-4 col-md-6 col-10 mb-4 d-flex justify-content-center align-items-center px-0">
+					<div class="card custom-card" style="width: 18rem !important;">
+						<div class="card-header custom-card-header">
+							<h5 class="card-title" th:text="${tenant.tenantName}">Tenant
+								Name</h5>
+						</div>
+						<div
+							class="card-body d-flex justify-content-center align-items-center flex-column mx-1"
+							style="height: 25rem;">
+							<div style="height: 12.5rem">
+								<form th:action="@{'/addBank/' + ${tenant.tenantId}}"
+									method="post">
+									<label>Available Banks:</label>
+									<div class="form-check" th:each="bankOption : ${bankOptions}">
+										<input type="checkbox" class="form-check-input"
+											th:id="${'bank-' + bankOption + tenant.tenantId}"
+											th:name="bankOptions" th:value="${bankOption}"> <label
+											class="form-check-label" th:for="${'bank-' + bankOption}"
+											th:text="${bankOption}"></label>
+									</div>
+									<button type="submit" class="btn btn-outline-primary mt-2">+
+										Add Selected Banks</button>
+								</form>
+							</div>
+							<div class="my-3 px-1 py-2"
+								style="max-height: 12.5rem; overflow: auto;">
+								<ul class="list-group mt-3">
+									<li th:each="bank : ${tenant.banks}"
+										class="list-group-item d-flex justify-content-between align-items-center">
+										<span th:text="${bank.bankName}" style="font-weight: 500;">Bank
+											Name</span> <span class="bank-status-toggle badge badge-pill"
+										th:classappend="${bank.status} ? 'badge-success' : 'badge-secondary'"
+										th:attr="data-bank-name=${bank.bankName}, data-bank-status=${bank.status}"
+										th:onclick="'toggleBankStatus(this)'"></span> <select
+										class="form-control ml-3"
+										th:id="'status-' + ${bank.bankName}+ '-'+${tenant.tenantId}"
+										th:attr="data-tenant-id=${tenant.tenantId}"
+										onchange="updateBankStatus(this)">
+
+											<option value="true"
+												th:id="'status-' + ${bank.bankName}+ '-'+${tenant.tenantId}+'-1'"
+												th:selected="${bank.status}">Active</option>
+											<option value="false"
+												th:id="'status-' + ${bank.bankName}+ '-'+${tenant.tenantId}+'-2'"
+												th:selected="${!bank.status}">Inactive</option>
+
+									</select>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	 -->
+
+	<div
+		class="row py-3 rounded mx-auto container d-flex justify-content-between align-items-center"
+		style="background: skyblue;">
+
+		<div class="card col-3 mx-1"
+			th:each="aggregators : ${accountAggregators}" style="height: 20rem;">
+			<div class="card-header" th:text="${aggregators.name}">Aggregator
+				Name</div>
+			<ul class="list-group list-group-flush"
+				style="height: 18rem; overflow: auto;">
+				<li
+					class="list-group-item  d-flex justify-content-between align-items-center"
+					th:each="bank : ${aggregators.banks}"><span
+					th:text="${bank.bankName}" style="font-weight: 500;">Bank</span>
+					<form th:action="@{/handleDropdownChange}" method="post">
+						<select class="form-control ml-4 col-9" name="selectedValue"
+							onchange="this.form.submit()">
+							
+							<option value="true" th:selected="${bank.globalStatus==true}">Active</option>
+							<option value="false" th:selected="${bank.globalStatus==false}">Inactive</option>
+						</select> 
+						<input type="hidden" name="aggregators_id" th:value="${aggregators.id}" />
+						<input type="hidden" name="bank_id" th:value="${bank.bankId}" />
+					</form></li>
+			</ul>
+		</div>
+
 	</div>
 
-	<script>
-    function toggleBankStatus(element) {
-        var bankName = element.getAttribute('data-bank-name');
-        var currentStatus = element.getAttribute('data-bank-status');
-
-        var newStatus = currentStatus === 'true' ? 'false' : 'true';
-
-        // Update the UI
-        element.classList.remove(currentStatus === 'true' ? 'active' : 'inactive');
-        element.classList.add(newStatus === 'true' ? 'active' : 'inactive');
-        element.textContent = newStatus === 'true' ? 'Active' : 'Inactive';
-
-        // Send an AJAX request to update the backend
-        fetch(`/toggleBankStatus?bankName=${bankName}&newStatus=${newStatus}`, {
-            method: 'POST'
-        })
-        .then(response => {
-            if (!response.ok) {
-                console.error('Failed to update bank status');
-            }
-        })
-        .catch(error => {
-            console.error('Error updating bank status:', error);
-        });
-    }
-    
-    function updateBankStatus(selectElement) {
-        var bankName = selectElement.id.substring(7); // Extract bank name from ID
-        var newStatus = selectElement.value === 'true';
-        var tenantId = selectElement.getAttribute('data-tenant-id');
-        
-        console.log(tenantId);
-
-        // Send an AJAX request to update the backend
-       fetch(`/updateBankStatus?bankName=${bankName}&newStatus=${newStatus}&tenantId=${tenantId}`, {
-    method: 'POST'
-})
-        .then(response => {
-            if (!response.ok) {
-                console.error('Failed to update bank status');
-            } else {
-                // Update the UI
-                var statusElement = document.querySelector(`.bank-status-toggle[data-bank-name="${bankName}"]`);
-                statusElement.classList.remove(newStatus ? 'inactive' : 'active');
-                statusElement.classList.add(newStatus ? 'active' : 'inactive');
-                statusElement.setAttribute('data-bank-status', newStatus);
-            }
-        })
-        .catch(error => {
-            console.error('Error updating bank status:', error);
-        });
-    }
-    
-    function updateGlobalBankStatus(selectElement) {
-        var bankName = selectElement.id.substring(7); // Extract bank name from ID
-        var newStatus = selectElement.value === 'true';
-
-        // Send an AJAX request to update the backend
-       fetch(`/updateGlobalBankStatus?bankName=${bankName}&newStatus=${newStatus}`, {
-    method: 'POST'
-})
-        .then(response => {
-            if (!response.ok) {
-                console.error('Failed to update bank status');
-            } else {
-                // Update the UI
-                var statusElement = document.querySelector(`.bank-status-toggle[data-bank-name="${bankName}"]`);
-                statusElement.classList.remove(newStatus ? 'inactive' : 'active');
-                statusElement.classList.add(newStatus ? 'active' : 'inactive');
-                statusElement.setAttribute('data-bank-status', newStatus);
-            }
-        })
-        .catch(error => {
-            console.error('Error updating bank status:', error);
-        });
-    }
-
-</script>
+	<script th:src="@{/script.js}"></script>
 
 	<!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

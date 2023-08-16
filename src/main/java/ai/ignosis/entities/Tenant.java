@@ -6,8 +6,9 @@ public class Tenant {
 	
 	private String tenantId;
 	private String tenantName;
+	private List<AccountAggregator> accountAggregators;
+	private Map<String, List<AccountAggregator>> aggregatorBanks;
 	
-	private Set<Bank> banks;
 
 	public String getTenantId() {
 		return tenantId;
@@ -25,29 +26,42 @@ public class Tenant {
 		this.tenantName = tenantName;
 	}
 
-	public Set<Bank> getBanks() {
-		return banks;
+	public List<AccountAggregator> getAccountAggregators() {
+		return accountAggregators;
 	}
 
-	public void setBanks(Set<Bank> banks) {
-		this.banks = banks;
+	public void setAccountAggregators(List<AccountAggregator> accountAggregators) {
+		this.accountAggregators = accountAggregators;
 	}
 
-	public Tenant(String tenantId, String tenantName, Set<Bank> banks) {
+	public Map<String, List<AccountAggregator>> getAggregatorBanks() {
+		return aggregatorBanks;
+	}
+
+	public void setAggregatorBanks(Map<String, List<AccountAggregator>> aggregatorBanks) {
+		this.aggregatorBanks = aggregatorBanks;
+	}
+
+	@Override
+	public String toString() {
+		return "Tenant [tenantId=" + tenantId + ", tenantName=" + tenantName + ", accountAggregators="
+				+ accountAggregators + ", aggregatorBanks=" + aggregatorBanks + "]";
+	}
+
+	public Tenant(String tenantId, String tenantName, List<AccountAggregator> accountAggregators,
+			Map<String, List<AccountAggregator>> aggregatorBanks) {
 		super();
 		this.tenantId = tenantId;
 		this.tenantName = tenantName;
-		this.banks = banks != null ? banks : new HashSet<>();
+		this.accountAggregators = accountAggregators;
+		this.aggregatorBanks = aggregatorBanks;
 	}
 
 	public Tenant() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	@Override
-	public String toString() {
-		return "Tenant [tenantId=" + tenantId + ", tenantName=" + tenantName + ", banks=" + banks + "]";
-	}
+	
+	
 
 }

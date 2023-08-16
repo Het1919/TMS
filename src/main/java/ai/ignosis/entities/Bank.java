@@ -2,10 +2,18 @@ package ai.ignosis.entities;
 
 public class Bank {
 
+	private int bankId;
 	private String bankName;
 	private boolean status;
 	private boolean globalStatus;
 	
+	
+	public int getBankId() {
+		return bankId;
+	}
+	public void setBankId(int bankId) {
+		this.bankId = bankId;
+	}
 	public boolean isGlobalStatus() {
 		return globalStatus;
 	}
@@ -35,7 +43,8 @@ public class Bank {
 	}
 	@Override
 	public String toString() {
-		return "Bank [bankName=" + bankName + ", status=" + status + "]";
+		return "Bank [bankId=" + bankId + ", bankName=" + bankName + ", status=" + status + ", globalStatus="
+				+ globalStatus + "]";
 	}
 	public Bank(String bankName, boolean status, boolean globalStatus) {
 		super();
@@ -43,6 +52,16 @@ public class Bank {
 		this.status = status;
 		this.globalStatus = globalStatus;
 	}
+	
+	public Bank(int bankId, String bankName, boolean status, boolean globalStatus) {
+		super();
+		this.bankId = bankId;
+		this.bankName = bankName;
+		this.status = status;
+		this.globalStatus = globalStatus;
+	}
+	
+	
 	
 	
 	
