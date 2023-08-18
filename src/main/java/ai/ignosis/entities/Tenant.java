@@ -6,8 +6,8 @@ public class Tenant {
 	
 	private String tenantId;
 	private String tenantName;
-	private List<AccountAggregator> accountAggregators;
-	private Map<String, List<AccountAggregator>> aggregatorBanks;
+	private Set<AccountAggregator> accountAggregators;
+	private Map<String, Set<Bank>> aggregatorBanks;
 	
 
 	public String getTenantId() {
@@ -26,19 +26,19 @@ public class Tenant {
 		this.tenantName = tenantName;
 	}
 
-	public List<AccountAggregator> getAccountAggregators() {
+	public Set<AccountAggregator> getAccountAggregators() {
 		return accountAggregators;
 	}
 
-	public void setAccountAggregators(List<AccountAggregator> accountAggregators) {
+	public void setAccountAggregators(Set<AccountAggregator> accountAggregators) {
 		this.accountAggregators = accountAggregators;
 	}
 
-	public Map<String, List<AccountAggregator>> getAggregatorBanks() {
+	public Map<String, Set<Bank>> getAggregatorBanks() {
 		return aggregatorBanks;
 	}
 
-	public void setAggregatorBanks(Map<String, List<AccountAggregator>> aggregatorBanks) {
+	public void setAggregatorBanks(Map<String, Set<Bank>> aggregatorBanks) {
 		this.aggregatorBanks = aggregatorBanks;
 	}
 
@@ -48,8 +48,8 @@ public class Tenant {
 				+ accountAggregators + ", aggregatorBanks=" + aggregatorBanks + "]";
 	}
 
-	public Tenant(String tenantId, String tenantName, List<AccountAggregator> accountAggregators,
-			Map<String, List<AccountAggregator>> aggregatorBanks) {
+	public Tenant(String tenantId, String tenantName, Set<AccountAggregator> accountAggregators,
+			Map<String, Set<Bank>> aggregatorBanks) {
 		super();
 		this.tenantId = tenantId;
 		this.tenantName = tenantName;

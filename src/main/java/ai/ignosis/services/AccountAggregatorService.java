@@ -18,52 +18,71 @@ public class AccountAggregatorService {
 
 	List<AccountAggregator> aggregators;
 	List<Bank> list;
+	
+	static int aggId = 1;
 
 	@Autowired
 	public AccountAggregatorService(BankService bankService) {
 		this.bankService = bankService;
-		initializeAggregators();
-	}
-
-	private void initializeAggregators() {
-		List<Bank> list = bankService.getBanks();
-		list = bankService.getBanks();
-		
-		AccountAggregator a1 = new AccountAggregator();
-		a1.setId(1);
-		a1.setName("Aggregator1");
-		Set<Bank> banks = new HashSet<>();
-		banks.add(list.get(0));
-		banks.add(list.get(1));
-		banks.add(list.get(2));
-		banks.add(list.get(3));
-		a1.setBanks(banks);
-		
-		AccountAggregator a2 = new AccountAggregator();
-		a2.setId(2);
-		a2.setName("Aggregator2");
-		Set<Bank> banks2 = new HashSet<>();
-		banks2.add(list.get(1));
-		banks2.add(list.get(3));
-		banks2.add(list.get(4));
-		a2.setBanks(banks2);
-
-		AccountAggregator a3 = new AccountAggregator();
-		a3.setId(3);
-		a3.setName("Aggregator3");
-		Set<Bank> banks3 = new HashSet<>();
-		banks3.add(list.get(2));
-		banks3.add(list.get(4));
-		a3.setBanks(banks3);
-
-		aggregators = new ArrayList<>();
-		aggregators.add(a1);
-		aggregators.add(a2);
-		aggregators.add(a3);
 	}
 
 	public List<AccountAggregator> getAggregators() {
 		return aggregators;
 	}
+
+	public void addAggregator(String aggregatorName, List<String> bankOptions) {
+		
+		AccountAggregator a = new AccountAggregator();
+		a.setId(aggId++);
+		a.setName(aggregatorName);
+		Set<Bank> banks = new HashSet<>();
+		for(String bankName:bankOptions)
+		{
+			Bank b = bankService.getBankByName(bankName);
+		
+			if(b != null)
+			{
+				Bank b1 = new Bank(b);
+				banks.add(b1);
+			}
+		}
+		a.setBanks(banks);
+		if(aggregators == null) {
+			aggregators = new ArrayList<>();
+		}
+		aggregators.add(a);
+	}
+	
+	public AccountAggregator getAccountAggregatorById(String aaId)
+	{
+		for(AccountAggregator a: aggregators)
+		{
+			if(String.valueOf(a.getId()).equals(aaId))
+			{
+				return a;
+			}
+		}
+		return null;
+	}
+
+	public Set<Bank> addAggregatorInTenant(String aggregatorId) {
+		return getAccountAggregatorById(aggregatorId).getBanks();
+	}
+	
+
+	 public List<Bank> getAggBanks(String id)
+	 {
+		 List<Bank> banks = new ArrayList<>();
+		 for(AccountAggregator agg : aggregators)
+		 {
+			 if(String.valueOf(agg.getId()).equals(id))
+			 {
+				 for(Bank b : agg.getBanks()) {
+					 banks.add(b);
+				 }
+			 }
+		 }
+		 return banks;
+	 }
 
 }

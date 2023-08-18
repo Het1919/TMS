@@ -60,6 +60,12 @@ public class Bank {
 		this.status = status;
 		this.globalStatus = globalStatus;
 	}
+	public Bank(Bank b) {
+		this.bankId = b.bankId;
+		this.bankName = b.bankName;
+		this.globalStatus = b.globalStatus;
+		this.status = b.status;
+	}
 	
 	
 	

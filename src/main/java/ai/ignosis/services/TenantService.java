@@ -33,12 +33,11 @@ public class TenantService {
 		{
 			if(String.valueOf(accAgg.getId()).equals(aggregatorsId) )
 			{
-				for(Bank b : bankService.getBanks())
+				for(Bank b :accAgg.getBanks())
 				{
 					if(String.valueOf(b.getBankId()).equals(bankId))
 					{
 						b.setGlobalStatus(Boolean.parseBoolean(selectedValue));
-						System.out.println(b);
 						return;
 					}
 				}
@@ -47,20 +46,29 @@ public class TenantService {
 		
 	}
 
-//	 public Tenant saveTenant(Tenant tenant) {
-//		    String prefix = "TID";
-//		    String formattedCounter = String.format("%02d", counter);
-//		    String randomID = prefix + formattedCounter;
-//		    
-//		    Set<Bank> banks = new HashSet<>(); // Initialize banks set here if needed
-//		    
-//		    tenant.setTenantId(randomID);
-//		    tenant.setBanks(banks); // Set the initialized banks set
-//		    
-//		    counter++;
-//		    tenants.put(randomID, tenant);
-//		    return tenant;
-//		}
+	
+
+	 public void saveTenant(String tenantName) {
+		    String prefix = "TID";
+		    String formattedCounter = String.format("%02d", counter);
+		    String randomID = prefix + formattedCounter;
+		    
+		    Tenant t = new Tenant();
+		    t.setTenantId(randomID);
+		    t.setTenantName(tenantName);
+		    t.setAccountAggregators(new HashSet<AccountAggregator>());
+		    t.setAggregatorBanks(new HashMap<String,Set<Bank>>());		    
+		    
+		    counter++;
+		    tenants.put(randomID, t);
+		}
+
+	public Tenant getTenant(String tenantId) {
+		System.out.println(tenantId);
+		System.out.println(tenants);
+		return tenants.get(tenantId);
+	}
+	 
 //
 //	
 //	public Tenant getTenantById(String tenantId) {
@@ -111,5 +119,6 @@ public class TenantService {
 //	public void updateGlobalBankStatus(String bankName, boolean newStatus) {
 //	    bankStatusMap.put(bankName, newStatus);
 //	}
+
 
 }

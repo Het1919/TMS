@@ -23,5 +23,18 @@ public class BankService {
 	{
 		return banks;
 	}
+	
+	public Bank getBankByName(String name)
+	{
+		for(Bank b : banks)
+		{
+			if(b.getBankName().equals(name))
+			{
+				return b;
+			}
+		}
+		return null;
+	}
+	
 
 }

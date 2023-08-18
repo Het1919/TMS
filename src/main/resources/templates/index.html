@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tenant Management</title>
-<link rel="stylesheet" th:href="@{/style.css}" />
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tenant Management</title>
+    <link rel="stylesheet" th:href="@{/style.css}" />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container text-center mt-3">
+      <h1 class="display-4">Tenant Management System</h1>
+    </div>
 
-</head>
-<body>
-
-	<div class="container text-center mt-3">
-		<h1 class="display-4">Tenant Management System</h1>
-	</div>
-
-	<hr class="my-4">
-	<!-- 	<div class="container py-2" id="parent-div">
+    <hr class="my-4" />
+    <!-- 	<div class="container py-2" id="parent-div">
 		<div class="container my-4" id="main-div">
 			<div class="row">
 				<div class="col-md-8 mx-auto">
@@ -126,43 +126,274 @@
 	</div>
 	 -->
 
-	<div
-		class="row py-3 rounded mx-auto container d-flex justify-content-between align-items-center"
-		style="background: skyblue;">
+    <div class="py-3 rounded mx-auto container" style="background: skyblue">
+      <div class="row">
+        <div class="col-12">
+          <h4 class="text-center head">Create Aggregator</h4>
+          <hr />
+          <form action="/addAggregator" method="post">
+            <div class="form-group">
+              <label
+                for="aggregatorName"
+                class="mr-2"
+                style="white-space: nowrap"
+                >Aggregator Name:</label
+              >
+              <input
+                type="text"
+                id="aggregatorName"
+                name="aggregatorName"
+                class="form-control"
+                required
+              />
+            </div>
+            <label>Available Banks:</label>
+            <div class="flex flex-column">
+              <div class="form-check" th:each="bankOption : ${bankOptions}">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  th:name="bankOptions"
+                  th:value="${bankOption.bankName}"
+                />
+                <label
+                  class="form-check-label"
+                  th:for="${bankOption.bankName}"
+                  th:text="${bankOption.bankName}"
+                ></label>
+              </div>
+            </div>
+            <button
+              type="submit"
+              id="create-agg"
+              class="btn btn-primary ml-2"
+              title="Create Aggregator"
+              style="white-space: nowrap"
+            >
+              Create Aggregator
+            </button>
+          </form>
+        </div>
+      </div>
 
-		<div class="card col-3 mx-1"
-			th:each="aggregators : ${accountAggregators}" style="height: 20rem;">
-			<div class="card-header" th:text="${aggregators.name}">Aggregator
-				Name</div>
-			<ul class="list-group list-group-flush"
-				style="height: 18rem; overflow: auto;">
-				<li
-					class="list-group-item  d-flex justify-content-between align-items-center"
-					th:each="bank : ${aggregators.banks}"><span
-					th:text="${bank.bankName}" style="font-weight: 500;">Bank</span>
-					<form th:action="@{/handleDropdownChange}" method="post">
-						<select class="form-control ml-4 col-9" name="selectedValue"
-							onchange="this.form.submit()">
-							
-							<option value="true" th:selected="${bank.globalStatus==true}">Active</option>
-							<option value="false" th:selected="${bank.globalStatus==false}">Inactive</option>
-						</select> 
-						<input type="hidden" name="aggregators_id" th:value="${aggregators.id}" />
-						<input type="hidden" name="bank_id" th:value="${bank.bankId}" />
-					</form></li>
-			</ul>
-		</div>
+      <div class="row mt-4">
+        <h4 class="text-center head">Available Aggregators</h4>
+        <div
+          class="card col-3 mx-1"
+          th:each="aggregators : ${accountAggregators}"
+          style="height: 20rem"
+        >
+          <div class="card-header" th:text="${aggregators.name}">
+            Aggregator Name
+          </div>
+          <ul
+            class="list-group list-group-flush"
+            style="height: 18rem; overflow: auto"
+          >
+            <li
+              class="list-group-item d-flex justify-content-between align-items-center"
+              th:each="bank : ${aggregators.banks}"
+            >
+              <span th:text="${bank.bankName}" style="font-weight: 500"
+                >Bank</span
+              >
+              <form th:action="@{/handleDropdownChange}" method="post">
+                <select
+                  class="form-control ml-4 col-9"
+                  name="selectedValue"
+                  onchange="this.form.submit()"
+                >
+                  <option value="true" th:selected="${bank.globalStatus==true}">
+                    Active
+                  </option>
+                  <option
+                    value="false"
+                    th:selected="${bank.globalStatus==false}"
+                  >
+                    Inactive
+                  </option>
+                </select>
+                <input
+                  type="hidden"
+                  name="aggregators_id"
+                  th:value="${aggregators.id}"
+                />
+                <input type="hidden" name="bank_id" th:value="${bank.bankId}" />
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
 
-	</div>
+    <div class="container">
+      <!-- create tenant -->
+      <div class="row">
+        <div class="col-12">
+          <h4 class="text-center head">Create Tenant</h4>
+          <hr />
+          <form action="/addTenant" method="post">
+            <div class="form-group">
+              <label for="tenantName" class="mr-2" style="white-space: nowrap"
+                >Tenant Name:</label
+              >
+              <input
+                type="text"
+                id="tenantName"
+                name="tenantName"
+                class="form-control"
+                required
+              />
+              <button
+                type="submit"
+                id="create-tan"
+                class="btn btn-primary ml-2 mt-2"
+                title="Create Tenant"
+                style="white-space: nowrap"
+              >
+                Create Tenant
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
 
-	<script th:src="@{/script.js}"></script>
+      <!-- Tenant list -->
+      <div
+        class="row d-flex justify-md-content-around justify-content-center align-items-center"
+      >
+        <div
+          th:each="tenant : ${tenants}"
+          class="col-lg-4 col-md-6 col-10 mb-4 d-flex justify-content-center align-items-center px-0"
+        >
+          <div class="card custom-card" style="width: 18rem !important">
+            <div class="card-header custom-card-header">
+              <h5 class="card-title" th:text="${tenant.tenantName}">
+                Tenant Name
+              </h5>
+            </div>
+            <div class="card-body">
+              <form
+                method="POST"
+                th:action="@{'/addAggregatorInTenant/' + ${tenant.tenantId}}"
+              >
+                <h5>Add aggregator</h5>
+                <div class="form-group">
+                  <select id="aggregatorId" name="aggregatorId">
+                    <option selected>Select Aggregator</option>
+                    <option
+                      th:each="aggregator : ${accountAggregators}"
+                      th:value="${aggregator.id}"
+                      th:text="${aggregator.name}"
+                    ></option>
+                  </select>
+                </div>
 
-	<!-- jQuery -->
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+                <!-- List of checkbox of Banks -->
+                <div id="associatedBanks"></div>
 
-	<!-- Bootstrap JavaScript -->
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                <button type="submit" class="btn btn-primary">
+                  Add Aggregator
+                </button>
+              </form>
 
-</body>
+              <!-- Added Aggregators -->
+              <div class="row mt-4">
+                <h4 class="text-center head">Available Aggregators</h4>
+                <div
+                  class="card col-12 mx-1"
+                  th:each="aggregators : ${tenant.accountAggregators}"
+                  style="height: 20rem"
+                >
+                  <div class="card-header" th:text="${aggregators.name}">
+                    Aggregator Name
+                  </div>
+                  <ul
+                    class="list-group list-group-flush"
+                    style="height: 18rem; overflow: auto"
+                  >
+                    <li
+                      class="list-group-item d-flex justify-content-between align-items-center"
+                      th:each="bank : ${tenant.aggregatorBanks[aggregators.id]}"
+                    >
+                      <span th:text="${bank.bankName}" style="font-weight: 500"
+                        >Bank</span
+                      >
+                      <form th:action="@{/handleDropdownChange}" method="post">
+                        <select
+                          class="form-control ml-4 col-9"
+                          name="selectedValue"
+                          onchange="this.form.submit()"
+                        >
+                          <option
+                            value="true"
+                            th:selected="${bank.globalStatus==true}"
+                          >
+                            Active
+                          </option>
+                          <option
+                            value="false"
+                            th:selected="${bank.globalStatus==false}"
+                          >
+                            Inactive
+                          </option>
+                        </select>
+                        <input
+                          type="hidden"
+                          name="aggregators_id"
+                          th:value="${aggregators.id}"
+                        />
+                        <input
+                          type="hidden"
+                          name="bank_id"
+                          th:value="${bank.bankId}"
+                        />
+                      </form>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script th:src="@{/script.js}"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <script>
+      document
+        .getElementById("aggregatorId")
+        .addEventListener("change", function () {
+          var selectedOption = this.value;
+          fetch("/getBanks?selected=" + selectedOption)
+            .then((response) => response.json())
+            .then((banks) => {
+              console.log(banks);
+              var associatedBanks = document.getElementById("associatedBanks");
+              associatedBanks.innerHTML = ""; // Clear previous items
+              banks.forEach(function (bank) {
+                var ckb = document.createElement("INPUT");
+                ckb.setAttribute("type", "checkbox");
+                ckb.setAttribute("class", "form-check-input");
+                ckb.setAttribute("name", "bankOptions");
+                ckb.setAttribute("value", bank.bankId);
+                var lbl = document.createElement("LABEL");
+                var t = document.createTextNode(bank.bankName);
+                lbl.appendChild(t);
+                var itemDiv = document.createElement("div");
+                itemDiv.setAttribute("class", "form-check");
+                itemDiv.appendChild(ckb);
+                itemDiv.appendChild(lbl);
+                associatedBanks.appendChild(itemDiv);
+              });
+            });
+        });
+    </script>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
 </html>

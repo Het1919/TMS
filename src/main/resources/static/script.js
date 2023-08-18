@@ -12,7 +12,7 @@
         // Send an AJAX request to update the backend
         fetch(`/toggleBankStatus?bankName=${bankName}&newStatus=${newStatus}`, {
             method: 'POST'
-        })
+        })	
         .then(response => {
             if (!response.ok) {
                 console.error('Failed to update bank status');
