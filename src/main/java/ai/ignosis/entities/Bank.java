@@ -14,7 +14,7 @@ public class Bank {
 	public void setBankId(int bankId) {
 		this.bankId = bankId;
 	}
-	public boolean isGlobalStatus() {
+	public boolean getGlobalStatus() {
 		return globalStatus;
 	}
 	public void setGlobalStatus(boolean globalStatus) {
@@ -26,7 +26,7 @@ public class Bank {
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
 	}
-	public boolean isStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 	public void setStatus(boolean status) {

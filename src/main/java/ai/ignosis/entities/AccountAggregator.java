@@ -7,6 +7,7 @@ public class AccountAggregator {
 	private int id;
 	private String name;
 	private Set<Bank> banks;
+	
 	public int getId() {
 		return id;
 	}

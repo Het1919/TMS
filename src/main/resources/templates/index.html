@@ -179,11 +179,11 @@
       <div class="mt-4">
         <h4 class="text-center">Available Aggregators</h4>
         <div class="card-group">
-          <div class="row d-flex justify-content-around rounded">
+          <div class="row d-flex justify-content-center rounded mx-auto">
             <div
-              class="card col-3 mx-1 mt-4"
+              class="card col-3 mx-4 mt-4"
               th:each="aggregators : ${accountAggregators}"
-              style="height: 20rem"
+              style="height: 20rem; min-width: 15rem"
             >
               <div class="card-header mt-2" th:text="${aggregators.name}">
                 Aggregator Name
@@ -334,25 +334,28 @@
                     <span th:text="${bank.bankName}" style="font-weight: 500"
                       >Bank</span
                     >
-                    <form th:action="@{/handleDropdownChange}" method="post">
+                    <form
+                      th:action="@{/handleDropdownChangeForTenant}"
+                      method="post"
+                    >
                       <select
                         class="form-control ml-4 col-9"
-                        name="selectedValue"
+                        name="selectedValue1"
+                        id="selectedValue1"
                         onchange="this.form.submit()"
                       >
-                        <option
-                          value="true"
-                          th:selected="${bank.globalStatus==true}"
-                        >
+                        <option value="true" th:selected="${bank.status==true}">
                           Active
                         </option>
-                        <option
-                          value="false"
-                          th:selected="${bank.globalStatus==false}"
-                        >
+                        <option value="false" th:selected="${bank.status==false}">
                           Inactive
                         </option>
                       </select>
+                      <input
+                        type="hidden"
+                        name="tenant_id"
+                        th:value="${tenant.tenantId}"
+                      />
                       <input
                         type="hidden"
                         name="aggregators_id"

@@ -56,8 +56,18 @@ public class TenantController {
 
 	@PostMapping("/handleDropdownChange")
 	public String handleDropdownChange(@RequestParam("selectedValue") String selectedValue,
-			@RequestParam("aggregators_id") String aggregatorsId, @RequestParam("bank_id") String bankId) {
+			                           @RequestParam("aggregators_id") String aggregatorsId,
+			                           @RequestParam("bank_id") String bankId) {
 		tenantService.handleDropdownChange(selectedValue, aggregatorsId, bankId);
+		return "redirect:/";
+	}
+	
+	@PostMapping("/handleDropdownChangeForTenant")
+	public String handleDropdownChangeForTenant(@RequestParam("selectedValue1") String selectedValue1,
+			                                    @RequestParam("tenant_id") String tenantId,
+			                                    @RequestParam("aggregators_id") String aggregatorsId,
+			                                    @RequestParam("bank_id") String bankId) {
+		tenantService.handleDropdownChangeForTenant(selectedValue1,tenantId, aggregatorsId, bankId);
 		return "redirect:/";
 	}
 
