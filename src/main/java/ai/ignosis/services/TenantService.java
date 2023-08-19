@@ -29,16 +29,34 @@ public class TenantService {
 
 	public void handleDropdownChange(String selectedValue, String aggregatorsId, String bankId) {
 
-		for (AccountAggregator accAgg : accountAggregatorService.getAggregators()) {
-			if (String.valueOf(accAgg.getId()).equals(aggregatorsId)) {
-				for (Bank b : accAgg.getBanks()) {
-					if (String.valueOf(b.getBankId()).equals(bankId)) {
-						b.setGlobalStatus(Boolean.parseBoolean(selectedValue));
-						return;
-					}
+//		for (AccountAggregator accAgg : accountAggregatorService.getAggregators()) {
+//			if (String.valueOf(accAgg.getId()).equals(aggregatorsId)) {
+//				for (Bank b : accAgg.getBanks()) {
+//					if (String.valueOf(b.getBankId()).equals(bankId)) {
+//						b.setGlobalStatus(Boolean.parseBoolean(selectedValue));
+//						return;
+//					}
+//				}
+//			}
+//		}
+		
+		List<Tenant> allTenants = getAllTenants();
+        
+		for(Tenant t: allTenants)
+		{
+			Set<Bank> banks = t.getAggregatorBanks().get(aggregatorsId);
+			
+			for(Bank b: banks)
+			{
+				if(String.valueOf(b.getBankId()).equals(bankId))
+				{
+					b.setGlobalStatus(Boolean.parseBoolean(selectedValue));
+					b.setStatus(Boolean.parseBoolean(selectedValue));
 				}
 			}
-		}
+			
+		}	
+		
 	}
 
 	public void saveTenant(String tenantName) {
