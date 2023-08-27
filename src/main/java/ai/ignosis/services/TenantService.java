@@ -1,149 +1,78 @@
 package ai.ignosis.services;
-
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ai.ignosis.entities.Tenant;
+import ai.ignosis.entities.TenantAggregatorBank;
+import ai.ignosis.repositories.AccountAggregatorBankRepository;
+import ai.ignosis.repositories.AccountAggregatorRepository;
+import ai.ignosis.repositories.BankRepository;
+import ai.ignosis.repositories.TenantAggregatorBankRepository;
+import ai.ignosis.repositories.TenantRepository;
 import ai.ignosis.entities.AccountAggregator;
+import ai.ignosis.entities.AccountAggregatorBanks;
 import ai.ignosis.entities.Bank;
 
 @Service
 public class TenantService {
 
-	private final ConcurrentHashMap<String, Tenant> tenants = new ConcurrentHashMap<>();
-
 	@Autowired
-	private AccountAggregatorService accountAggregatorService;
-
+	private TenantRepository tenantRepository;
+	
 	@Autowired
-	private BankService bankService;
-
-	private static int counter = 1;
-
-	public List<Tenant> getAllTenants() {
-		return new ArrayList<>(tenants.values());
-	}
-
-	public void handleDropdownChange(String selectedValue, String aggregatorsId, String bankId) {
-
-		for (AccountAggregator accAgg : accountAggregatorService.getAggregators()) {
-			if (String.valueOf(accAgg.getId()).equals(aggregatorsId)) {
-				for (Bank b : accAgg.getBanks()) {
-					if (String.valueOf(b.getBankId()).equals(bankId)) {
-						b.setGlobalStatus(Boolean.parseBoolean(selectedValue));
-						break;
-					}
-				}
-				break;
-			}
-		}
-		
-		List<Tenant> allTenants = getAllTenants();
-        
-		for(Tenant t: allTenants)
-		{
-			Set<Bank> banks = t.getAggregatorBanks().get(aggregatorsId);
-			
-			for(Bank b: banks)
-			{
-				if(String.valueOf(b.getBankId()).equals(bankId))
-				{
-					b.setStatus(Boolean.parseBoolean(selectedValue));
-				}
-			}
-			
-		}	
-		
-	}
+	private AccountAggregatorRepository accountAggregatorRepository;
+	
+	@Autowired
+	private BankRepository bankRepository;
+	
+	@Autowired
+	private TenantAggregatorBankRepository tenantAggregatorBankRepository;
+	
+	@Autowired
+	private AccountAggregatorBankRepository accountAggregatorBankRepository;
 
 	public void saveTenant(String tenantName) {
-		String prefix = "TID";
-		String formattedCounter = String.format("%02d", counter);
-		String randomID = prefix + formattedCounter;
-
 		Tenant t = new Tenant();
-		t.setTenantId(randomID);
 		t.setTenantName(tenantName);
-		t.setAccountAggregators(new HashSet<AccountAggregator>());
-		t.setAggregatorBanks(new HashMap<String, Set<Bank>>());
-
-		counter++;
-		tenants.put(randomID, t);
+		tenantRepository.save(t);
 	}
 
-	public Tenant getTenant(String tenantId) {
-		System.out.println(tenantId);
-		System.out.println(tenants);
-		return tenants.get(tenantId);
-	}
+	public void addAggregatorInTenant(int tenantId, String name, List<String> selectedBanks) {
+		
+		Tenant tenant = tenantRepository.findById(tenantId).get();
+		List<AccountAggregator> aggregatorByName = accountAggregatorRepository.findByName(name);
+		
+		Set<AccountAggregator> s = new HashSet<>(aggregatorByName);
+		
+		List<AccountAggregatorBanks> list = accountAggregatorBankRepository.findAll();
+		
+		Set<Bank> banks = new HashSet<>();
+		for(String bankName : selectedBanks)
+		{
+			List<Bank> b1 = bankRepository.findByBankName(bankName);
+			banks.add(b1.get(0));
 
-	public void handleDropdownChangeForTenant(String selectedValue1, String tenantId, String aggregatorsId,
-			String bankId) {
-
-		List<Tenant> allTenants = getAllTenants();
-		for (Tenant t : allTenants) {
-			if (t.getTenantId().equals(tenantId)) {
-				Set<Bank> banks = t.getAggregatorBanks().get(aggregatorsId);
-				for (Bank b : banks) {
-					if (String.valueOf(b.getBankId()).equals(bankId)) {
-						b.setStatus(Boolean.parseBoolean(selectedValue1));
-						return;
-					}
+			TenantAggregatorBank tenantAggregatorBank = new TenantAggregatorBank();
+			tenantAggregatorBank.setTenant(tenant);
+			tenantAggregatorBank.setAggregator(aggregatorByName.get(0));
+			tenantAggregatorBank.setBank(b1.get(0));
+			
+			for(AccountAggregatorBanks ag: list)
+			{
+				if(ag.getAggregator().getName().equals(aggregatorByName.get(0).getName()) && ag.getBank().getBankId() == b1.get(0).getBankId())
+				{
+					tenantAggregatorBank.setStatus(ag.isGlobalStatus());
+					tenantAggregatorBankRepository.save(tenantAggregatorBank);
 				}
 			}
 		}
+		
+		Set<AccountAggregator> accountAggregators = tenant.getAccountAggregators();
+		accountAggregators.addAll(aggregatorByName);
+		accountAggregatorRepository.saveAll(aggregatorByName);
+		tenantRepository.save(tenant);
 	}
-
-//	public Tenant getTenantById(String tenantId) {
-//	    return tenants.get(tenantId);
-//	}
-//
-//	public void addBankToTenant(String tenantId, String bankName, boolean bankStatus) {
-//	    Tenant tenant = tenants.get(tenantId);
-//	    if (tenant != null) {
-//	        boolean found = false;
-//	        for (Bank bank : tenant.getBanks()) {
-//	            if (bank.getBankName().equals(bankName)) {
-//	                bank.setStatus(bankStatus);
-//	                bank.setGlobalStatus(bankStatusMap.get(bank.getBankName()));
-//	                found = true;
-//	                break;
-//	            }
-//	        }
-//	        if (!found) {
-//	            Bank bank = new Bank(bankName, bankStatus);
-//	            tenant.getBanks().add(bank);
-//	        }
-//	    }
-//	}
-//	
-//	public void toggleBankStatus(String bankName, boolean newStatus) {
-//	    for (Tenant tenant : tenants.values()) {
-//	        for (Bank bank : tenant.getBanks()) {
-//	            if (bank.getBankName().equals(bankName)) {
-//	                bank.setStatus(newStatus);
-//	                return;
-//	            }
-//	        }
-//	    }
-//	}
-//	
-//	public void updateBankStatus(String bankName, boolean newStatus,String tenantId) {
-//		//System.out.println(tenantId);
-//	    Tenant tenant = tenants.get(tenantId);
-//	    for (Bank bank : tenant.getBanks()) {
-//            if (bank.getBankName().equals(bankName)) {
-//                bank.setStatus(newStatus);
-//                return;
-//            }
-//        }
-//	}
-//	
-//	public void updateGlobalBankStatus(String bankName, boolean newStatus) {
-//	    bankStatusMap.put(bankName, newStatus);
-//	}
 
 }
