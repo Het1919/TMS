@@ -56,6 +56,8 @@ public class AccountAggregator {
 		return "AccountAggregator [id=" + id + ", name=" + name + ", tenants=" + tenants + ", accountAggregatorBanks="
 				+ accountAggregatorBanks + "]";
 	}
+
+	
 	
 	
 }

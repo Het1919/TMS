@@ -68,6 +68,8 @@ public class AccountAggregatorBanks {
 		return "AccountAggregatorBanks [id=" + id + ", aggregator=" + aggregator + ", bank=" + bank + ", globalStatus="
 				+ globalStatus + "]";
 	}
+
+	
     
 }
 

@@ -44,8 +44,6 @@ public class TenantService {
 		Tenant tenant = tenantRepository.findById(tenantId).get();
 		List<AccountAggregator> aggregatorByName = accountAggregatorRepository.findByName(name);
 		
-		Set<AccountAggregator> s = new HashSet<>(aggregatorByName);
-		
 		List<AccountAggregatorBanks> list = accountAggregatorBankRepository.findAll();
 		
 		Set<Bank> banks = new HashSet<>();
@@ -73,6 +71,10 @@ public class TenantService {
 		accountAggregators.addAll(aggregatorByName);
 		accountAggregatorRepository.saveAll(aggregatorByName);
 		tenantRepository.save(tenant);
+	}
+
+	public List<Tenant> getAllTenants() {
+		return tenantRepository.findAll();
 	}
 
 }

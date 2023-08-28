@@ -47,6 +47,8 @@ public class Tenant {
 		this.accountAggregators = accountAggregators;
 	}
 
+	
+
 	@Override
 	public String toString() {
 		return "Tenant [tenantId=" + tenantId + ", tenantName=" + tenantName + ", accountAggregators="

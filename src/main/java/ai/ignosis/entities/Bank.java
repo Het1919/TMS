@@ -55,5 +55,7 @@ public class Bank {
 		return "Bank [bankId=" + bankId + ", bankName=" + bankName + ", accountAggregatorBanks="
 				+ accountAggregatorBanks + "]";
 	}
+
+	
 	
 }

@@ -39,8 +39,6 @@ public class TenantAggregatorBank {
 	public int getId() {
 		return id;
 	}
-
-
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -49,8 +47,6 @@ public class TenantAggregatorBank {
 	public Tenant getTenant() {
 		return tenant;
 	}
-
-
 	public void setTenant(Tenant tenant) {
 		this.tenant = tenant;
 	}
@@ -59,32 +55,23 @@ public class TenantAggregatorBank {
 	public AccountAggregator getAggregator() {
 		return aggregator;
 	}
-
-
 	public void setAggregator(AccountAggregator aggregator) {
 		this.aggregator = aggregator;
 	}
 
-
 	public Bank getBank() {
 		return bank;
 	}
-
-
 	public void setBank(Bank bank) {
 		this.bank = bank;
 	}
 
-
 	public boolean isStatus() {
 		return status;
 	}
-
-
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-
 
 	@Override
 	public String toString() {

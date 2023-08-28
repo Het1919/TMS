@@ -3,13 +3,11 @@ package ai.ignosis.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ai.ignosis.entities.AccountAggregator;
 import ai.ignosis.entities.AccountAggregatorBanks;
 import ai.ignosis.entities.Bank;
 import ai.ignosis.entities.Tenant;
 import ai.ignosis.entities.TenantAggregatorBank;
 import ai.ignosis.repositories.AccountAggregatorBankRepository;
-import ai.ignosis.repositories.AccountAggregatorRepository;
 import ai.ignosis.repositories.BankRepository;
 import ai.ignosis.repositories.TenantAggregatorBankRepository;
 import ai.ignosis.repositories.TenantRepository;
@@ -23,9 +21,6 @@ public class BankService {
 
 	@Autowired
 	private TenantRepository tenantRepository;
-
-	@Autowired
-	private AccountAggregatorRepository accountAggregatorRepository;
 
 	@Autowired
 	private TenantAggregatorBankRepository tenantAggregatorBankRepository;
@@ -62,8 +57,6 @@ public class BankService {
 
 		for (Tenant t : listOfTenants) {
 			try {
-				AccountAggregator accountAggregator = accountAggregatorRepository.findById(aggId).get();
-				Bank b = bankRepository.findById(bankId).get();
 				List<TenantAggregatorBank> all = tenantAggregatorBankRepository.findAll();
 				for (TenantAggregatorBank tab : all) {
 					if (tab.getTenant().getTenantId() == (t.getTenantId()) && tab.getAggregator().getId() == aggId
@@ -87,17 +80,14 @@ public class BankService {
 
 	public void updateLocalStatus(int tId, int agId, int bId, boolean status) {
 
-		List<Tenant> listOfTenants = tenantRepository.findAll();
-
-		for (Tenant t : listOfTenants) {
-			List<TenantAggregatorBank> all = tenantAggregatorBankRepository.findAll();
-			for (TenantAggregatorBank tab : all) {
-				if (tab.getTenant().getTenantId() == tId && tab.getAggregator().getId() == agId
-						&& tab.getBank().getBankId() == bId) {
-					tab.setStatus(status);
-					tenantAggregatorBankRepository.save(tab);
-				}
+		List<TenantAggregatorBank> all = tenantAggregatorBankRepository.findAll();
+		for (TenantAggregatorBank tab : all) {
+			if (tab.getTenant().getTenantId() == tId && tab.getAggregator().getId() == agId
+					&& tab.getBank().getBankId() == bId) {
+				tab.setStatus(status);
+				tenantAggregatorBankRepository.save(tab);
 			}
 		}
+
 	}
 }

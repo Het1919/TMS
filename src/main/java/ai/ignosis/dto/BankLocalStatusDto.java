@@ -1,17 +1,22 @@
 package ai.ignosis.dto;
 
-public class BankLocalStatusDao {
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema
+public class BankLocalStatusDto {
 	
+	@Schema(name = "tId")
 	private int tId;
 	private int agId;
+	@Schema(name = "bId")
 	private int bId;
 	private boolean status;
 	
-	public BankLocalStatusDao() {
+	public BankLocalStatusDto() {
 		super();
 	}
 	
-	public BankLocalStatusDao(int tId, int agId, int bId, boolean status) {
+	public BankLocalStatusDto(int tId, int agId, int bId, boolean status) {
 		super();
 		this.tId = tId;
 		this.agId = agId;
@@ -47,8 +52,6 @@ public class BankLocalStatusDao {
 	@Override
 	public String toString() {
 		return "BankLocalStatusDao [tId=" + tId + ", agId=" + agId + ", bId=" + bId + ", status=" + status + "]";
-	}
-	
-	
+	}	
 
 }

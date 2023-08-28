@@ -44,13 +44,7 @@ public class AccountAggregatorService {
 		
 	}
 
-	public List<AccountAggregator> getAllAggregators() {
-		List<AccountAggregator> allAggregators = null;
-		try {
-			allAggregators = accountAggregatorRepository.findAll();
-		}catch(Exception e) {
-			System.out.println("Hello JI");
-		}
-		return allAggregators;
+	public List<AccountAggregator> getAllAccountAggregators() {
+		return accountAggregatorRepository.findAll();
 	}
 }
