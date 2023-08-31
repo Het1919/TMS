@@ -1,27 +1,30 @@
-package ai.ignosis.dto;
+package ai.ignosis.payload;
 
-public class CreateBankDto {
+public class TenantDto {
 	
 	private String name;
-	
-	public CreateBankDto() {
+
+	public TenantDto() {
 		super();
 	}
-	public CreateBankDto(String name) {
+
+	public TenantDto(String name) {
 		super();
 		this.name = name;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	@Override
 	public String toString() {
-		return "CreateBankDto [name=" + name + "]";
+		return "TenantDto [name=" + name + "]";
 	}
-
 	
 
 }

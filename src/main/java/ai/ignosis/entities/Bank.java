@@ -10,6 +10,7 @@ public class Bank {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int bankId;
+	@Column(unique = true)
 	private String bankName;
 	
 	@OneToMany(mappedBy = "bank")
@@ -56,6 +57,4 @@ public class Bank {
 				+ accountAggregatorBanks + "]";
 	}
 
-	
-	
 }

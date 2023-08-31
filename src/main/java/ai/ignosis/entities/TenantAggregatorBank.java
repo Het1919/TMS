@@ -15,7 +15,7 @@ public class TenantAggregatorBank {
 
     @ManyToOne
     @JoinColumn(name = "agId", referencedColumnName = "id")
-    private AccountAggregator aggregator;
+    private AccountAggregator accountAggregator;
 
     @ManyToOne
     @JoinColumn(name = "bId", referencedColumnName = "bankId")
@@ -27,14 +27,18 @@ public class TenantAggregatorBank {
 		super();
 	}
 
-	public TenantAggregatorBank(int id, Tenant tenant, AccountAggregator aggregator, Bank bank, boolean status) {
+	
+
+	public TenantAggregatorBank(int id, Tenant tenant, AccountAggregator accountAggregator, Bank bank, boolean status) {
 		super();
 		this.id = id;
 		this.tenant = tenant;
-		this.aggregator = aggregator;
+		this.accountAggregator = accountAggregator;
 		this.bank = bank;
 		this.status = status;
 	}
+
+
 
 	public int getId() {
 		return id;
@@ -51,12 +55,12 @@ public class TenantAggregatorBank {
 		this.tenant = tenant;
 	}
 
-
-	public AccountAggregator getAggregator() {
-		return aggregator;
+	public AccountAggregator getAccountAggregator() {
+		return accountAggregator;
 	}
-	public void setAggregator(AccountAggregator aggregator) {
-		this.aggregator = aggregator;
+
+	public void setAccountAggregator(AccountAggregator accountAggregator) {
+		this.accountAggregator = accountAggregator;
 	}
 
 	public Bank getBank() {
@@ -73,10 +77,14 @@ public class TenantAggregatorBank {
 		this.status = status;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "TenantAggregatorBank [id=" + id + ", tenant=" + tenant + ", aggregator=" + aggregator + ", bank=" + bank
-				+ ", status=" + status + "]";
+		return "TenantAggregatorBank [id=" + id + ", tenant=" + tenant + ", accountAggregator=" + accountAggregator
+				+ ", bank=" + bank + ", status=" + status + "]";
 	}
+
+	
 
 }

@@ -11,7 +11,7 @@ public class AccountAggregatorBanks {
 
     @ManyToOne
     @JoinColumn(name = "agId", referencedColumnName = "id")
-    private AccountAggregator aggregator;
+    private AccountAggregator accountAggregator;
 
     @ManyToOne
     @JoinColumn(name = "bId", referencedColumnName = "bankId")
@@ -23,10 +23,10 @@ public class AccountAggregatorBanks {
 		super();
 	}
 
-	public AccountAggregatorBanks(int id, AccountAggregator aggregator, Bank bank, boolean globalStatus) {
+	public AccountAggregatorBanks(int id, AccountAggregator accountAggregator, Bank bank, boolean globalStatus) {
 		super();
 		this.id = id;
-		this.aggregator = aggregator;
+		this.accountAggregator = accountAggregator;
 		this.bank = bank;
 		this.globalStatus = globalStatus;
 	}
@@ -39,12 +39,12 @@ public class AccountAggregatorBanks {
 		this.id = id;
 	}
 
-	public AccountAggregator getAggregator() {
-		return aggregator;
+	public AccountAggregator getAccountAggregator() {
+		return accountAggregator;
 	}
 
-	public void setAggregator(AccountAggregator aggregator) {
-		this.aggregator = aggregator;
+	public void setAccountAggregator(AccountAggregator accountAggregator) {
+		this.accountAggregator = accountAggregator;
 	}
 
 	public Bank getBank() {
@@ -65,12 +65,10 @@ public class AccountAggregatorBanks {
 
 	@Override
 	public String toString() {
-		return "AccountAggregatorBanks [id=" + id + ", aggregator=" + aggregator + ", bank=" + bank + ", globalStatus="
-				+ globalStatus + "]";
+		return "AccountAggregatorBanks [id=" + id + ", accountAggregator=" + accountAggregator + ", bank=" + bank
+				+ ", globalStatus=" + globalStatus + "]";
 	}
 
-	
-    
 }
 
 

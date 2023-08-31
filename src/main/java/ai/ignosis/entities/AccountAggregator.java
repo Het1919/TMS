@@ -11,12 +11,13 @@ public class AccountAggregator {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@Column(unique = true)
 	private String name;
 	
 	@ManyToMany(mappedBy="accountAggregators")
 	private Set<Tenant> tenants = new HashSet<>();
 	
-	@OneToMany(mappedBy = "aggregator")
+	@OneToMany(mappedBy = "accountAggregator")
 	private Set<AccountAggregatorBanks> accountAggregatorBanks = new HashSet<>();
 	
 	public AccountAggregator() {
@@ -56,8 +57,5 @@ public class AccountAggregator {
 		return "AccountAggregator [id=" + id + ", name=" + name + ", tenants=" + tenants + ", accountAggregatorBanks="
 				+ accountAggregatorBanks + "]";
 	}
-
-	
-	
 	
 }

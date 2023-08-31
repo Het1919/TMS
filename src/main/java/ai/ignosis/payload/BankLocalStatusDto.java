@@ -1,4 +1,4 @@
-package ai.ignosis.dto;
+package ai.ignosis.payload;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

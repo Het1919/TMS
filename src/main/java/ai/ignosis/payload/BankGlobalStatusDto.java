@@ -1,4 +1,4 @@
-package ai.ignosis.dto;
+package ai.ignosis.payload;
 
 public class BankGlobalStatusDto {
 	

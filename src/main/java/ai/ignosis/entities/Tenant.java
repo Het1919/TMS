@@ -10,6 +10,8 @@ public class Tenant {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int tenantId;
+	
+	@Column(unique = true)
 	private String tenantName;
 	
 	@ManyToMany
@@ -46,8 +48,6 @@ public class Tenant {
 		this.tenantName = tenantName;
 		this.accountAggregators = accountAggregators;
 	}
-
-	
 
 	@Override
 	public String toString() {
