@@ -14,7 +14,7 @@ public class Tenant {
 	@Column(unique = true)
 	private String tenantName;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<AccountAggregator> accountAggregators = new HashSet<>();	
 
 	public int getTenantId() {

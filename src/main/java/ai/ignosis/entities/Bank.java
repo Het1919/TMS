@@ -13,7 +13,7 @@ public class Bank {
 	@Column(unique = true)
 	private String bankName;
 	
-	@OneToMany(mappedBy = "bank")
+	@OneToMany(mappedBy = "bank", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<AccountAggregatorBanks> accountAggregatorBanks = new HashSet<>();
 
 	public Bank() {

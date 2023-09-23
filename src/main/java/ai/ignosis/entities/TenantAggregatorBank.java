@@ -9,25 +9,25 @@ public class TenantAggregatorBank {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "tId", referencedColumnName = "tenantId")
-    private Tenant tenant;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "tId", referencedColumnName = "tenantId")
+	private Tenant tenant;
 
-    @ManyToOne
-    @JoinColumn(name = "agId", referencedColumnName = "id")
-    private AccountAggregator accountAggregator;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "agId", referencedColumnName = "id")
+	private AccountAggregator accountAggregator;
 
-    @ManyToOne
-    @JoinColumn(name = "bId", referencedColumnName = "bankId")
-    private Bank bank;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "bId", referencedColumnName = "bankId")
+	private Bank bank;
+
+
 
     private boolean status;
 
 	public TenantAggregatorBank() {
 		super();
 	}
-
-	
 
 	public TenantAggregatorBank(int id, Tenant tenant, AccountAggregator accountAggregator, Bank bank, boolean status) {
 		super();
@@ -38,15 +38,12 @@ public class TenantAggregatorBank {
 		this.status = status;
 	}
 
-
-
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-
 
 	public Tenant getTenant() {
 		return tenant;
@@ -77,14 +74,10 @@ public class TenantAggregatorBank {
 		this.status = status;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "TenantAggregatorBank [id=" + id + ", tenant=" + tenant + ", accountAggregator=" + accountAggregator
 				+ ", bank=" + bank + ", status=" + status + "]";
 	}
-
-	
 
 }

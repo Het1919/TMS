@@ -60,11 +60,13 @@ public class BankController {
 	@PutMapping("/global-status")
 	public ResponseEntity<String> updateGlobalStatus(@RequestBody BankGlobalStatusDto bankGlobalStatusDto) {
 		try {
+			System.out.println(bankGlobalStatusDto);
 			bankService.updateGlobalStatus(bankGlobalStatusDto.getAggId(), bankGlobalStatusDto.getBankId(),
 					bankGlobalStatusDto.getStatus());
 			return new ResponseEntity<>("Status updated", HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			System.out.println(e.getMessage());
+			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
 		}
 	}
 

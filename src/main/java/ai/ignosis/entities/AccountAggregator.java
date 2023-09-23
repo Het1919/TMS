@@ -14,10 +14,10 @@ public class AccountAggregator {
 	@Column(unique = true)
 	private String name;
 	
-	@ManyToMany(mappedBy="accountAggregators")
+	@ManyToMany(mappedBy = "accountAggregators", cascade = CascadeType.ALL)
 	private Set<Tenant> tenants = new HashSet<>();
-	
-	@OneToMany(mappedBy = "accountAggregator")
+
+	@OneToMany(mappedBy = "accountAggregator", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<AccountAggregatorBanks> accountAggregatorBanks = new HashSet<>();
 	
 	public AccountAggregator() {

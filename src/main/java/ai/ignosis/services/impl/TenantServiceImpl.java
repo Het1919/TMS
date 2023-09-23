@@ -55,12 +55,14 @@ public class TenantServiceImpl implements TenantService{
 		for(String bankName : selectedBanks)
 		{
 			List<Bank> b1 = bankRepository.findByBankName(bankName);
-			banks.add(b1.get(0));
+			
 
 			TenantAggregatorBank tenantAggregatorBank = new TenantAggregatorBank();
-			tenantAggregatorBank.setTenant(tenant);
-			tenantAggregatorBank.setAccountAggregator(aggregatorByName.get(0));
-			tenantAggregatorBank.setBank(b1.get(0));
+			if(tenantAggregatorBankRepository.findByTenantAndAccountAggregatorAndBank(tenant, aggregatorByName.get(0), b1.get(0)) == null) {
+				tenantAggregatorBank.setTenant(tenant);
+				tenantAggregatorBank.setAccountAggregator(aggregatorByName.get(0));
+				tenantAggregatorBank.setBank(b1.get(0));
+			
 			
 			for(AccountAggregatorBanks ag: list)
 			{
@@ -76,6 +78,7 @@ public class TenantServiceImpl implements TenantService{
 		accountAggregators.addAll(aggregatorByName);
 		accountAggregatorRepository.saveAll(aggregatorByName);
 		tenantRepository.save(tenant);
+		}
 	}
 
 	public List<Tenant> getAllTenants() {

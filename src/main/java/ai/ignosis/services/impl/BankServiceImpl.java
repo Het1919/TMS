@@ -26,7 +26,7 @@ public class BankServiceImpl implements BankService {
 
 	@Autowired
 	private TenantRepository tenantRepository;
-	
+
 	@Autowired
 	private AccountAggregatorRepository accountAggregatorRepository;
 
@@ -51,11 +51,12 @@ public class BankServiceImpl implements BankService {
 	}
 
 	public void updateGlobalStatus(int aggId, int bankId, boolean status) {
-		
+
 		AccountAggregator accountAggregator = accountAggregatorRepository.findById(aggId).get();
 		Bank bank = bankRepository.findById(bankId).get();
-		
-		AccountAggregatorBanks accountAggregatorAndBank = accountAggregatorBankRepository.findByAccountAggregatorAndBank(accountAggregator,bank);
+
+		AccountAggregatorBanks accountAggregatorAndBank = accountAggregatorBankRepository
+				.findByAccountAggregatorAndBank(accountAggregator, bank);
 		accountAggregatorAndBank.setGlobalStatus(status);
 		accountAggregatorBankRepository.save(accountAggregatorAndBank);
 
@@ -63,9 +64,16 @@ public class BankServiceImpl implements BankService {
 
 		for (Tenant t : listOfTenants) {
 			Tenant tenant = tenantRepository.findById(t.getTenantId()).get();
-			TenantAggregatorBank tenantAndAccountAggregatorAndBank = tenantAggregatorBankRepository.findByTenantAndAccountAggregatorAndBank(tenant,accountAggregator,bank);
-			tenantAndAccountAggregatorAndBank.setStatus(status);
-			tenantAggregatorBankRepository.save(tenantAndAccountAggregatorAndBank);
+
+			TenantAggregatorBank tenantAndAccountAggregatorAndBank = tenantAggregatorBankRepository
+					.findByTenantAndAccountAggregatorAndBank(tenant, accountAggregator, bank);
+			if (tenantAndAccountAggregatorAndBank != null) {
+				// System.out.println(tenant);
+				tenantAndAccountAggregatorAndBank.setStatus(status);
+				tenantAggregatorBankRepository.save(tenantAndAccountAggregatorAndBank);
+				// System.out.println(tenant.getTenantId() + "==="+ accountAggregator.getId() +
+				// "===" + bank.getBankId());
+			}
 		}
 
 	}
@@ -77,20 +85,23 @@ public class BankServiceImpl implements BankService {
 	}
 
 	public void updateLocalStatus(int tId, int agId, int bId, boolean status) {
-		
+
 		Tenant tenant = tenantRepository.findById(tId).get();
 		AccountAggregator accountAggregator = accountAggregatorRepository.findById(agId).get();
 		Bank bank = bankRepository.findById(bId).get();
-		
-		TenantAggregatorBank tenantAndAccountAggregatorAndBank = tenantAggregatorBankRepository.findByTenantAndAccountAggregatorAndBank(tenant,accountAggregator,bank);
-		tenantAndAccountAggregatorAndBank.setStatus(status);
-		tenantAggregatorBankRepository.save(tenantAndAccountAggregatorAndBank);
+
+		TenantAggregatorBank tenantAndAccountAggregatorAndBank = tenantAggregatorBankRepository
+				.findByTenantAndAccountAggregatorAndBank(tenant, accountAggregator, bank);
+		if (tenantAndAccountAggregatorAndBank != null) {
+			tenantAndAccountAggregatorAndBank.setStatus(status);
+			tenantAggregatorBankRepository.save(tenantAndAccountAggregatorAndBank);
+		}
 	}
 
 	@Override
 	public Bank getBankById(int id) {
-		Bank bank= bankRepository.findById(id)
-				.orElseThrow(() -> new ResourseNotFoundException("Bank not exist with id :: "+id));
+		Bank bank = bankRepository.findById(id)
+				.orElseThrow(() -> new ResourseNotFoundException("Bank not exist with id :: " + id));
 		return bank;
 	}
 }
